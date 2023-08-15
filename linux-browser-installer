@@ -418,8 +418,8 @@ cleanup()
 
 usage()
 {
-	echo "Usage: $0 install <brave|chrome|edge|vivaldi|opera>"
-	echo "       $0 deinstall <brave|chrome|edge|vivaldi|opera>"
+	echo "Usage: $0 install <brave|chrome|edge|vivaldi|opera|ferdium>"
+	echo "       $0 deinstall <brave|chrome|edge|vivaldi|opera|ferdium>"
 	echo "       $0 chroot <create|upgrade|delete>"
 	echo "       $0 symlink <icons|themes>"
 	echo "       $0 clean"
