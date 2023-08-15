@@ -219,7 +219,7 @@ deinstall_vivaldi()
 
 install_edge()
 {
-	if [ -x ${chroot_path}/opt/microsoft/msedge/microsoft-edge]; then
+	if [ -x ${chroot_path}/opt/microsoft/msedge/microsoft-edge ]; then
 		echo "Edge already installed" >&2
 		exit 1
 	fi
@@ -279,6 +279,35 @@ deinstall_opera()
 	rm -f "${appsdir}/linux-opera.desktop"
 	rm -f "${bindir}/linux-opera"
 	rm -f "${chroot_bindir}/opera"
+}
+
+install_ferdium()
+{
+	if [ -x ${chroot_path}/opt/Ferdium/ferdium ]; then
+		echo "Ferdium already installed" >&2
+		exit 1
+	fi
+	chroot ${chroot_path} /bin/bash -c "apt install -y curl jq" || \
+		bail "'apt install -y curl jq' failed"
+	chroot ${chroot_path} /bin/bash -c "curl -ksL $(curl -s https://api.github.com/repos/ferdium/ferdium-app/releases/latest | jq -r '.assets[].browser_download_url' | grep -E 'Ferdium-linux-.*-amd64.deb') > Ferdium-linux-amd64.deb" || \
+		bail "'Download Ferdium-linux-amd64.deb' failed"
+	chroot ${chroot_path} /bin/bash -c "apt install -y ./Ferdium-linux-amd64.deb" || \
+		bail "'apt install -y ./Ferdium-linux-amd64.deb' failed"
+	rm -f ${chroot_path}/Ferdium-linux-amd64.deb
+	[ -d "${chroot_path}/${prefix}/share/fonts" ] && \
+		rmdir "${chroot_path}/${prefix}/share/fonts"
+	install -m 555 chroot/bin/ferdium "${chroot_bindir}"
+	install -m 555 bin/linux-ferdium "${bindir}"
+	install -m 0644 linux-ferdium.desktop "${appsdir}"
+}
+
+deinstall_ferdium()
+{
+	chroot ${chroot_path} /bin/bash -c "apt remove -y ferdium" || \
+		bail "'apt remove -y ferdium' failed"
+	rm -f "${appsdir}/linux-ferdium.desktop"
+	rm -f "${bindir}/linux-ferdium"
+	rm -f "${chroot_bindir}/ferdium"
 }
 
 symlink_icons()
