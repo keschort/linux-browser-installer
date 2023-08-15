@@ -289,7 +289,7 @@ install_ferdium()
 	fi
 	chroot ${chroot_path} /bin/bash -c "apt install -y curl jq" || \
 		bail "'apt install -y curl jq' failed"
-	chroot ${chroot_path} /bin/bash -c "curl -ksL $(curl -s https://api.github.com/repos/ferdium/ferdium-app/releases/latest | jq -r '.assets[].browser_download_url' | grep -E 'Ferdium-linux-.*-amd64.deb') > Ferdium-linux-amd64.deb" || \
+	chroot ${chroot_path} /bin/bash -c "curl -ksL \$(curl -s https://api.github.com/repos/ferdium/ferdium-app/releases/latest | jq -r '.assets[].browser_download_url' | grep -E 'Ferdium-linux-.*-amd64.deb') > Ferdium-linux-amd64.deb" || \
 		bail "'Download Ferdium-linux-amd64.deb' failed"
 	chroot ${chroot_path} /bin/bash -c "apt install -y ./Ferdium-linux-amd64.deb" || \
 		bail "'apt install -y ./Ferdium-linux-amd64.deb' failed"
@@ -408,7 +408,7 @@ upgrade_chroot()
 
 cleanup()
 {
-	browsers="brave chrome edge vivaldi opera"
+	browsers="brave chrome edge vivaldi opera ferdium"
 	for b in ${browsers}; do
 		rm -f "bin/linux-$b"
 		rm -f "chroot/bin/$b"
