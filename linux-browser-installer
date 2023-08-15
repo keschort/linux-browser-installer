@@ -373,6 +373,7 @@ install_chroot_base()
 		${chroot_path}/etc/apt/sources.list
 	echo "deb http://archive.ubuntu.com/ubuntu/ ${ubuntu_version}-security " \
 	     "main restricted universe multiverse" >> \
+		${chroot_path}/etc/apt/sources.list
 	echo "deb http://archive.ubuntu.com/ubuntu/ ${ubuntu_version}-backports " \
 	     "main restricted universe multiverse" >> \
 		${chroot_path}/etc/apt/sources.list
